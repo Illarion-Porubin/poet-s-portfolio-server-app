@@ -66,7 +66,7 @@ class UserService {
     }
 
     async refresh(refreshToken) {
-        if(!refreshToken) {
+        if (!refreshToken) {
             throw ApiError.UnatorizaedErorr();
         }
 
@@ -90,6 +90,21 @@ class UserService {
     async getAllUsers() {
         const users = await UserSchema.find();
         return users;
+    }
+
+    async me(req, res) {
+        try {
+            const user = await UserSchema.findById(req.userId);
+            if (!user) {
+                return res.status(404).json({
+                    message: `пользователь не найден`,
+                });
+            }
+            const { passwordHash, password, activationLink, ...userData } = user._doc;
+            return {user: userData}
+        } catch (err) {
+            res.status(500).json(err);
+        }
     }
 }
 

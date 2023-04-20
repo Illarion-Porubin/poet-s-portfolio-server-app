@@ -76,6 +76,15 @@ class UserController {
             next(e)
         }
     }
+
+    async getMe(req, res, next) {
+        try {
+          const me = await userService.me(req, res);
+          return res.json(me);
+        } catch (e) {
+          next(e);
+        }
+      }
 }
 
 module.exports = new UserController();

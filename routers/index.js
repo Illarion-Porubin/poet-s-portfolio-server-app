@@ -1,8 +1,9 @@
 const Router = require('express').Router;
 const userController = require('../controller/user-controller');
-const contentController = require('../controller/contetn-controller');
+const contentController = require('../controller/content-controller');
 const router = new Router(); 
 const authMiddleware = require('../middlewares/auth-middleware');
+const checkAuth = require("./checkAuth")
 
 
 
@@ -12,11 +13,15 @@ router.post('/logout', userController.logout);
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
 router.get('/users', authMiddleware, userController.getUsers);
-
+router.get('/me', checkAuth.check, userController.getMe);
 
 //////////////content///////////////
 
-router.post('/content', contentController.createContent);
+router.post('/content', contentController.createDescContent);
+router.get('/content', contentController.getContent);
+router.put('/content', contentController.updateContent);
+
+
 // router.post('/poem', contentController.createContent);
 // router.post('/article', contentController.createContent);
 // router.put('/content', contentController.createContent);
