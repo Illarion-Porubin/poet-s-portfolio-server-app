@@ -5,4 +5,4 @@ const PoemSchema = new Schema({
     text: {type: String, unique: false, required: true},
 })
 
-module.exports = model('Poem', PoemSchema);Article
+module.exports = model('Poem', PoemSchema);

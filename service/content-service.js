@@ -18,7 +18,6 @@ class ContentService {
     }
 
     async updateCont(data) {
-        const id = '6441476cab029bc488b2daa7'
         const {
             main_title, main_btn,
             about_block_title_1,
@@ -28,9 +27,7 @@ class ContentService {
             contact_title
         } = data;
 
-        console.log(data)
-
-        const content = await ContentSchema.findById(id);
+        const content = await ContentSchema.findById(data._id);
         if (!content) {
             throw ApiError.BadRequest("Данные не найдены");
         }

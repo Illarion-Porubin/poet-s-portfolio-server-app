@@ -87,11 +87,6 @@ class UserService {
         }
     }
 
-    async getAllUsers() {
-        const users = await UserSchema.find();
-        return users;
-    }
-
     async me(req, res) {
         try {
             const user = await UserSchema.findById(req.userId);
@@ -100,8 +95,14 @@ class UserService {
                     message: `пользователь не найден`,
                 });
             }
-            const { passwordHash, password, activationLink, ...userData } = user._doc;
-            return {user: userData}
+            const userDto = new UserDto(user);
+            const tokens = tokenService.generateTokens({ ...userDto });
+        await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+        return {
+            ...tokens,
+            user: userDto
+        }
         } catch (err) {
             res.status(500).json(err);
         }
