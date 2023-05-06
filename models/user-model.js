@@ -5,6 +5,7 @@ const UserSchema = new Schema({
     lastName: {type: String, unique: false, required: true},
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true},
+    photoId: {type: String, unique: true, default: ''},
     admin: {type: Boolean, default: false},
     isActivated: {type: Boolean, default: false},
     activationLink: {type: String, required: true},

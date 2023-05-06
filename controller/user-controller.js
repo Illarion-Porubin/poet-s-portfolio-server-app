@@ -35,15 +35,15 @@ class UserController {
 
     async logout(req, res, next) {
         try {
-          const { refreshToken } = req.cookies;
-          const token = await userService.logout(refreshToken);
-          res.clearCookie("refreshToken");
-          res.clearCookie("refreshCookie");
-          return res.json(token);
+            const { refreshToken } = req.cookies;
+            const token = await userService.logout(refreshToken);
+            res.clearCookie("refreshToken");
+            res.clearCookie("refreshCookie");
+            return res.json(token);
         } catch (e) {
-          next(e);
+            next(e);
         }
-      }
+    }
 
     async activate(req, res, next) {
         try {
@@ -57,7 +57,7 @@ class UserController {
 
     async refresh(req, res, next) {
         try {
-            const {refreshToken} = req.cookies;
+            const { refreshToken } = req.cookies;
             const userData = await userService.refresh(refreshToken);
             res.cookie("refreshToken", userData.refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true
@@ -70,12 +70,21 @@ class UserController {
 
     async getMe(req, res, next) {
         try {
-          const me = await userService.me(req, res);
-          return res.json(me);
+            const me = await userService.me(req, res);
+            return res.json(me);
         } catch (e) {
-          next(e);
+            next(e);
         }
-      }
+    }
+
+    async update(req, res, next) {
+        try {
+            const userData = await userService.update(req.body);
+            return res.json(userData);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new UserController();

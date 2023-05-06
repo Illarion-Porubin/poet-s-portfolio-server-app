@@ -3,7 +3,7 @@ const ContentDto = require('../dtos/content-dto');
 // const ApiError = require('../exceptions/api-error');
 
 class ContentService {
-    async createContent(value) {
+    async create(value) {
         const content = await ContentSchema.create({ ...value });
         return {
             content
@@ -19,6 +19,8 @@ class ContentService {
 
     async updateCont(data) {
         const {
+            main_photo_id,
+            main_email,
             main_title, main_btn,
             about_block_title_1,
             about_block_title_2,
@@ -27,12 +29,15 @@ class ContentService {
             contact_title
         } = data;
 
+        console.log(data)
         const content = await ContentSchema.findById(data._id);
         if (!content) {
             throw ApiError.BadRequest("Данные не найдены");
         }
         await content.updateOne(
             {
+                main_photo_id,
+                main_email,
                 main_title,
                 main_btn,
                 about_block_title_1,

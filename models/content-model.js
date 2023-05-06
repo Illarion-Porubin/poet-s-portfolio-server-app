@@ -1,6 +1,8 @@
 const { Schema, model, default: mongoose } = require('mongoose');
 
 const ContentSchema = new Schema({
+    main_photo_id: {type: String, default: ''},
+    main_email: {type: String, default: ''},
     main_title: { type: String, unique: true },
     main_btn: { type: String, unique: true },
     about_block_title_1: { type: String, unique: true },

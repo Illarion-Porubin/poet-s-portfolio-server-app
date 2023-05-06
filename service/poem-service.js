@@ -4,6 +4,7 @@ const ApiError = require('../exceptions/api-error');
 
 class PoemService {
     async create(data) {
+        console.log(data)
         const poem = await PoemSchema.create({ ...data })
         return { poem }
     }
@@ -14,28 +15,36 @@ class PoemService {
     }
 
     async getOne(id) {
-        const poem = await PoemSchema.findById({ id })
+        const poem = await PoemSchema.findById(id)
         return { poem }
     }
 
     async updateOne(data) {
-        const id = '64464ff76d0a17a576e6a1d2';
-        const { title, text } = data;
+        const { title, text, id } = data;
         const poem = await PoemSchema.findById(id);
         if (!poem) {
             return 'Не найдено'
         }
-        const updatePoem =  await PoemSchema.updateOne({ title, text })
-        return { updatePoem }
+        poem = await PoemSchema.findById(id).updateOne({ title, text })
+        return { poem }
     }
 
     async deleteOne(data) {
-        const testId = '64464ff76d0a17a576e6a1d2';
-        const poem = await PoemSchema.findById(testId);
-        if(!poem) {
+        const poem = await PoemSchema.findById(data.id);
+        if (!poem) {
             return 'Не найдено'
         }
-        return await PoemSchema.deleteOne({_id: testId})       
+        return await PoemSchema.deleteOne({ _id: data.id })
+    }
+
+    async search(value) {
+        const poem = await PoemSchema.find({
+            title: { $regex: value, $options: "i" },
+        });
+        if (!poem) {
+            return res.status(400).json("ошибка получения данных");
+        }
+        return (poem)
     }
 }
 

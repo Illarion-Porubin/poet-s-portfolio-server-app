@@ -12,29 +12,43 @@ class ArticleService {
         return { articles }
     }
 
+    async sort(str) {
+        const sort = str === `less` ? -1 : 1;
+        const articles = await ArticleSchema.find().sort({createdAt: sort})
+        return { articles }
+    }
+
     async getOne(id) {
-        const article = await ArticleSchema.findById({ id })
+        const article = await ArticleSchema.findById(id)
         return { article }
     }
 
     async updateOne(data) {
-        const id = '64464ff76d0a17a576e6a1d2';
-        const { title, text } = data;
+        const { title, text, id } = data;
         const article = await ArticleSchema.findById(id);
         if (!article) {
             return 'Не найдено'
         }
-        const updateArticle = await ArticleSchema.updateOne({ title, text })
+        updateArticle = await ArticleSchema.findById(id).updateOne({ title, text })
         return { updateArticle }
     }
 
     async deleteOne(data) {
-        const testId = '64464ff76d0a17a576e6a1d2';
-        const article = await ArticleSchema.findById(testId);
+        const article = await ArticleSchema.findById(data.id);
         if (!article) {
             return 'Не найдено'
         }
-        return await ArticleSchema.deleteOne({ _id: testId })
+        return await ArticleSchema.deleteOne({ _id: data.id })
+    }
+
+    async search(value) {
+        const article = await ArticleSchema.find({
+            title: { $regex: value, $options: "i" },
+        });
+        if (!article) {
+            return res.status(400).json("ошибка получения данных");
+        }
+        return (article)
     }
 }
 

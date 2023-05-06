@@ -14,7 +14,7 @@ class PoemController {
 
     async getPoems(req, res, next) {
         try {
-            const poems = await poemService.getAll();
+            const poems = await poemService.getAll(req);
             return (res.json(poems))
         } catch (error) {
             next()
@@ -23,7 +23,7 @@ class PoemController {
 
     async getPoem(req, res, next) {
         try {
-            const poem = await poemService.getOne(req.body.id);
+            const poem = await poemService.getOne(req.params.id);
             return (res.json(poem))
         } catch (error) {
             next()
@@ -41,12 +41,25 @@ class PoemController {
 
     async deletePoem(req, res, next) {
         try {
-            const poem = await poemService.deleteOne(req.body);
+            const poem = await poemService.deleteOne(req.params);
             return (res.json(poem))
         } catch (error) {
             next()
         }
     }
+
+    async searchPoem(req, res) {
+        try {
+            const poem = await poemService.search(req.params.value);
+            if (!poem) {
+                return res.status(400).json("ошибка получения данных");
+            }
+            return (res.json(poem))
+        } catch (error) {
+            return res.status(500).json(`Не удалось получить данные из БД`);
+        }
+    }
+
 }
 
 module.exports = new PoemController();

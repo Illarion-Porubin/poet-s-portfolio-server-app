@@ -21,9 +21,18 @@ class ArticleController {
         }
     }
 
+    async sortArticle(req, res, next) {
+        try {
+            const articles = await articleService.sort(req.params.value);
+            return (res.json(articles))
+        } catch (error) {
+            next()
+        }
+    }
+
     async getArticle(req, res, next) {
         try {
-            const article = await articleService.getOne(req.body);
+            const article = await articleService.getOne(req.params.id);
             return (res.json(article))
         } catch (error) {
             next()
@@ -41,10 +50,22 @@ class ArticleController {
 
     async deleteArticle(req, res, next) {
         try {
-            const article = await articleService.deleteOne(req.body);
+            const article = await articleService.deleteOne(req.params);
             return (res.json(article))
         } catch (error) {
             next()
+        }
+    }
+
+    async searchArticle(req, res) {
+        try {
+            const article = await articleService.search(req.params.value);
+            if (!article) {
+                return res.status(400).json("ошибка получения данных");
+            }
+            return (res.json(article))
+        } catch (error) {
+            return res.status(500).json(`Не удалось получить данные из БД`);
         }
     }
 }

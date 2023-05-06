@@ -30,6 +30,17 @@ class MailService {
             `
         })
     }
+
+    async send(data) {
+        console.log(data)
+        await this.transporter.sendMail({
+            from: process.env.SMTP_HOST,
+            to: data.to,
+            subject: `Вам пишет ${data.name}`,
+            from: data.email,
+            text: data.text,
+        })
+    }
 }
 
 module.exports = new MailService();

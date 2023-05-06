@@ -32,11 +32,3 @@ class validationRules {
 
 
 module.exports = new validationRules()
-
-
-
-// function noDigits(event) {
-//     if ("1234567890".indexOf(event.key) != -1)
-//       event.preventDefault();
-//   }
-//   <input type="text" onkeypress="noDigits(event)" />
