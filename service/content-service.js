@@ -20,6 +20,8 @@ class ContentService {
     async updateCont(data) {
         const {
             main_photo_id,
+            main_firstName,
+            main_lastName,
             main_email,
             main_title, main_btn,
             about_block_title_1,
@@ -38,6 +40,8 @@ class ContentService {
             {
                 main_photo_id,
                 main_email,
+                main_firstName,
+                main_lastName,
                 main_title,
                 main_btn,
                 about_block_title_1,

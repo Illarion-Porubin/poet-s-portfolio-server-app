@@ -2,6 +2,8 @@ const { Schema, model, default: mongoose } = require('mongoose');
 
 const ContentSchema = new Schema({
     main_photo_id: {type: String, default: ''},
+    main_firstName: {type: String, unique: false, required: true},
+    main_lastName: {type: String, unique: false, required: true},
     main_email: {type: String, default: ''},
     main_title: { type: String, unique: true },
     main_btn: { type: String, unique: true },

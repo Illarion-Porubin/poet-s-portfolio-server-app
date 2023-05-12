@@ -10,8 +10,7 @@ class PoemService {
     }
 
     async getAll() {
-        const poems = await PoemSchema.find()
-        return { poems }
+        return  await PoemSchema.find()
     }
 
     async getOne(id) {

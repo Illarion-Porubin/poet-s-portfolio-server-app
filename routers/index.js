@@ -27,7 +27,6 @@ router.post('/content', contentController.createContent);
 ///////////////nodemailer////////////////////
 router.post('/message', contentController.sendMessage);
 
-
 /////////////poem//////////////
 router.get('/poems', poemController.getPoems);
 router.get('/poem/:id', poemController.getPoem);
