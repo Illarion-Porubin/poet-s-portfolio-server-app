@@ -4,13 +4,12 @@ const ApiError = require('../exceptions/api-error');
 
 class PoemService {
     async create(data) {
-        console.log(data)
         const poem = await PoemSchema.create({ ...data })
         return { poem }
     }
 
     async getAll() {
-        return  await PoemSchema.find()
+        return await PoemSchema.find()
     }
 
     async getOne(id) {

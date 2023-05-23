@@ -8,12 +8,12 @@ class ArticleService {
     }
 
     async getAll() {
-        return  await ArticleSchema.find()
+        return await ArticleSchema.find()
     }
 
     async sort(str) {
         const sort = str === `less` ? -1 : 1;
-        return await ArticleSchema.find().sort({createdAt: sort})
+        return await ArticleSchema.find().sort({ createdAt: sort })
     }
 
     async getOne(id) {
@@ -38,7 +38,7 @@ class ArticleService {
         }
         return await ArticleSchema.deleteOne({ _id: data.id })
     }
-    
+
     async search(value) {
         const article = await ArticleSchema.find({
             title: { $regex: value, $options: "i" },
