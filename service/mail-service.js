@@ -32,11 +32,10 @@ class MailService {
     }
 
     async send(data) {
-        console.log(data)
         await this.transporter.sendMail({
             from: process.env.SMTP_HOST,
             to: data.to,
-            subject: `Вам пишет ${data.name}`,
+            subject: `Вам пишет ${data.name}. Почта: ${data.email}`,
             from: data.email,
             text: data.text,
         })

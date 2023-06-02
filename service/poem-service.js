@@ -18,12 +18,12 @@ class PoemService {
     }
 
     async updateOne(data) {
-        const { title, text, id } = data;
-        const poem = await PoemSchema.findById(id);
+        const { title, text, _id } = data;
+        const poem = await PoemSchema.findById(_id);
         if (!poem) {
             return 'Не найдено'
         }
-        poem = await PoemSchema.findById(id).updateOne({ title, text })
+        poem = await PoemSchema.findById(_id).updateOne({ title, text })
         return { poem }
     }
 

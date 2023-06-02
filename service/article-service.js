@@ -22,13 +22,13 @@ class ArticleService {
     }
 
     async updateOne(data) {
-        const { title, text, id } = data;
-        const article = await ArticleSchema.findById(id);
+        const { title, text, _id } = data;
+        const article = await ArticleSchema.findById(_id);
         if (!article) {
             return 'Не найдено'
         }
-        updateArticle = await ArticleSchema.findById(id).updateOne({ title, text })
-        return { updateArticle }
+        article = await ArticleSchema.findById(_id).updateOne({ title, text })
+        return { article }
     }
 
     async deleteOne(data) {
