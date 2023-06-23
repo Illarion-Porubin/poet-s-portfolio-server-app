@@ -7,7 +7,7 @@ const UserDto = require('../dtos/user-dto');
 const ApiError = require('../exceptions/api-error');
 
 class UserService {
-    async registration(firstName, lastName, email, password) {
+    async registration(firstName, lastName, email, password, phone, card) {
         const candidate = await UserSchema.findOne({ email })
         if (candidate) {
             throw ApiError.BadRequest('Пользователь уже существует')
@@ -16,7 +16,7 @@ class UserService {
         const hashPassword = await bcrypt.hash(password, 3);
         const activationLink = uuid.v4();
 
-        const user = await UserSchema.create({ firstName, lastName, email, password: hashPassword, activationLink });
+        const user = await UserSchema.create({ firstName, lastName, email, phone, card, password: hashPassword, activationLink });
         await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
 
         const userDto = new UserDto(user)
@@ -109,12 +109,12 @@ class UserService {
     }
 
     async update(data) {
-        const { email, firstName, lastName, id, photoId } = data;
+        const { email, firstName, lastName, id, photoId, phone, card } = data;
         const user = await UserSchema.findById(id);
         if (!user) {
             throw ApiError.BadRequest("Пользователь не найден");
         }
-        await user.updateOne({ email, firstName, lastName, photoId })
+        await user.updateOne({ email, firstName, lastName, photoId, phone, card })
     }
 }
 
